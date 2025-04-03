@@ -68,7 +68,7 @@ def predict_product():
 
 def generate_product_from_waste(descriptions):
     client = genai.Client(api_key=key)
-    prompt = f"Based on these waste materials: {descriptions}, suggest a new product that can be made by combining them."
+    prompt = f"Using the following waste materials: {descriptions}, suggest an innovative, eco-friendly product that can be practically manufactured. Ensure the product is sustainable, biodegradable, or recyclable, and explain how it benefits the environment."
     response = client.models.generate_content(
         model="gemini-2.0-flash",
         contents=[prompt]
