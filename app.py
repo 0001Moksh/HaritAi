@@ -23,8 +23,6 @@ garbage_descriptions = []
 # Store the suggested product
 suggested_product = ""
 
-key = "AIzaSyDBiMuUtYvPI2WuDqF1NqdOgd8EtRr72So"
-
 @app.route('/')
 def home():
     return render_template('index.html')
