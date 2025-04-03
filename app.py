@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 config = dotenv_values(".env")
 key=config.get('gemini_key')
-
+key = "AIzaSyDBiMuUtYvPI2WuDqF1NqdOgd8EtRr72So"
 # Upload folder
 UPLOAD_FOLDER = 'uploads/'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
