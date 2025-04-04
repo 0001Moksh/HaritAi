@@ -548,10 +548,6 @@
         function generateImage() {
             let container = document.getElementById("generated-image-container");
 
-            // Show loading animation
-            container.innerHTML = `<div class="spinner-border text-primary" role="status">
-                                       <span class="visually-hidden">Generating...</span>
-                                   </div>`;
             // Show loading animation before making the request
             showLoadingAnimation();
             fetch('/generate_product_image', { method: "GET" })
@@ -569,7 +565,7 @@
                     }
                 })
                 .catch(error => {
-                    container.innerHTML = `<p class='text-danger'>Error fetching image: ${error}</p>`;
+                    container.innerHTML = `<p class='text-danger'>Error fetching image -> ${error}</p>`;
                     // Hide loading animation in case of error
                     hideLoadingAnimation();
                 });
