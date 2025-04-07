@@ -3,72 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HaritAI - Waste Recycling</title>
+    <title>HaritAI - Eco-Friendly Waste Recycling</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-static@0.309.0/dist/lucide.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <style>
+        /* --- General Styles --- */
         body {
-            /* Gradient background */
-            background: linear-gradient(135deg, #6c5ce7, #ff7979); /* Purple to Pink */
-            background-size: 400% 400%;
-            animation: gradientAnimation 15s ease infinite;
-            color: #eee;
-            text-align: center;
-            padding-top: 30px;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #e8f5e9, #ffffff); /* Light green to white gradient */
+            color: #333;
+            overflow-x: hidden;
+            position: relative;
+            padding-top: 24px;
             transition: background-color 0.3s ease;
-            overflow-x: hidden; /* Prevent horizontal scrollbar */
-            position: relative; /* For particles */
         }
 
-        @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        #particles-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.3); /* More transparent */
-            pointer-events: none;
+        body.dark-mode {
+            background: linear-gradient(to bottom, #2c3e50, #1e272e);
+            color: #eee;
         }
 
         .container {
-            background: rgba(51, 51, 51, 0.8); /* Darker container with transparency */
-            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .card {
+            background-color: #fff;
+            border: none;
             border-radius: 15px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-            max-width: 700px;
-            transition: background 0.3s ease, box-shadow 0.3s ease;
-            margin: 0 auto; /* Center the container */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
+            padding: 24px;
         }
 
-        .container:hover {
-            background: rgba(68, 68, 68, 0.9); /* Slightly lighter on hover with transparency */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        .card.dark-mode {
+            background-color: #34495e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
-        h2 {
-            color: #fff;
-            margin-bottom: 20px;
+        h1, h2, h3 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: #2e7d32; /* Dark green */
         }
 
+        .dark-mode h1, .dark-mode h2, .dark-mode h3 {
+            color: #81c784;
+        }
+
+        /* --- Hero Banner --- */
+        .hero-banner {
+            background-image: url('/static/hero-banner.jpg'); /* Replace with your image */
+            background-size: cover;
+            background-position: center;
+            height: 250px;
+            border-radius: 15px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-banner h1 {
+            color:rgba(255, 255, 255, 0.59); /* darker for better contrast */
+            text-shadow: 
+                0 2px 4px #2e7d32,
+                0 0 50px rgba(255, 49, 49, 0.6); /* extra glow */
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            font-size: 2.5rem;
+        }
+        .hero-banner.light-mode h1 {
+            color: black;
+        }
+
+        /* --- Input Section --- */
+        .input-section {
+            margin-bottom: 32px;
+        }
+
+        .input-section .form-control {
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            padding: 12px 20px;
+            background-color: #f8f8f8;
+        }
+
+        .input-section .form-control.dark-mode {
+            background-color: #4a6572;
+            color: #eee;
+            border-color: #607d8b;
+        }
+
+        .input-section .form-control:focus {
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.25);
+        }
+
+        .btn-upload, .btn-camera {
+            border-radius: 25px;
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
+
+        .btn-upload {
+            background-color: #2e7d32;
+            border-color: #2e7d32;
+            color: white;
+        }
+
+        .btn-upload:hover {
+            background-color: #1b5e20;
+            border-color: #1b5e20;
+        }
+
+        .btn-camera {
+            background-color: #607d8b;
+            border-color: #607d8b;
+        }
+
+        .btn-camera:hover {
+            background-color: #455a64;
+            border-color: #455a64;
+        }
+
+        /* --- Image Preview --- */
         .image-list {
             display: flex;
             flex-wrap: wrap;
@@ -131,45 +201,89 @@
             transform: scale(1.1);
         }
 
-        .loading {
-            display: none;
-            font-size: 14px;
-            color: #aaa;
-            margin-top: 5px;
+        /* --- Result Section --- */
+        .result-card {
+            background-color: #f0f8f0; /* Light green */
+            border-radius: 15px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
         }
 
-        #predict-btn, #generate-btn {
-            display: none;
-            margin-top: 15px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            background-color: #5a3999; /* Purple */
-            border: none;
-            color: white;
+        .result-card.dark-mode {
+            background-color: #4a6572;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .result-card h3 {
+            color: #2e7d32;
+            margin-bottom: 12px;
+        }
+
+        .result-card.dark-mode h3 {
+            color: #81c784;
+        }
+
+        .result-card p {
+            margin-bottom: 12px;
+        }
+
+        .result-card .icon {
+            font-size: 24px;
+            margin-right: 10px;
+            color: #2e7d32;
+        }
+
+        .result-card.dark-mode .icon {
+            color: #81c784;
+        }
+
+        /* --- Buttons --- */
+        .btn-primary, .btn-success, .btn-warning {
+            border-radius: 25px;
             padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
-        #predict-btn:hover, #generate-btn:hover {
-            background-color: #28a745; /* Darker green on hover */
+        .btn-primary:hover, .btn-success:hover, .btn-warning:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
         }
 
-        #predict-btn:disabled, #generate-btn:disabled {
-            background-color: #6c757d; /* Gray */
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+        .btn-primary {
+            background-color: #2e7d32;
+            border-color: #2e7d32;
+        }
+
+        .btn-primary:hover {
+            background-color: #1b5e20;
+            border-color: #1b5e20;
+        }
+
+        .btn-success {
+            background-color: #4caf50;
+            border-color: #4caf50;
+        }
+
+        .btn-success:hover {
+            background-color: #388e3c;
+            border-color: #388e3c;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
         }
 
         .btn-outline-secondary {
-            color: #fff;
+            color: #333;
             border-color: #6c757d;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
@@ -181,49 +295,32 @@
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
         }
 
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+        /* --- Loading Animation --- */
+        .loading-animation {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
         }
 
-        .btn-primary:hover {
-            background-color: #0069d9;
-            border-color: #0062cc;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+        .spinner {
+            border: 4px solid rgba(46, 125, 50, 0.3);
+            border-top: 4px solid #2e7d32;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
         }
 
-        .btn-success {
-            background-color: #28a745;
-            border-color: #28a745;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .btn-success:hover {
-            background-color: #218838;
-            border-color: #1e7e34;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .btn-warning {
-            background-color: #ffc107;
-            border-color: #ffc107;
-            color: #212529;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .btn-warning:hover {
-            background-color: #e0a800;
-            border-color: #d39e00;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
-        }
-
+        /* --- Generated Image --- */
         #generated-image-container {
             margin-top: 20px;
-            transition: opacity 0.3s ease;
+            text-align: center;
         }
 
         #generated-image-container img {
@@ -233,52 +330,17 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
         }
 
-        #product-result {
-            color: #fff;
-            font-size: 18px;
-            margin-top: 20px;
-            white-space: pre-line;
-            text-align: left;
+        /* --- Error Handling --- */
+        .error-image {
+            max-width: 300px;
         }
 
-        .form-control {
-            background-color: #444;
-            color: #fff;
-            border: 1px solid #666;
+        .error-message {
+            color: #dc3545;
+            margin-top: 10px;
         }
 
-        .form-control:focus {
-            background-color: #555;
-            color: #fff;
-            border-color: #888;
-            box-shadow: 0 0 0 0.25rem rgba(136, 136, 136, 0.25);
-        }
-
-        .loading-animation {
-            display: none;
-            margin-top: 20px;
-        }
-
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid #fff;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        /* Custom Alert Styles */
+        /* --- Custom Alert --- */
         .custom-alert {
             position: fixed;
             top: 50%;
@@ -290,12 +352,12 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
             z-index: 1000;
-            display: none; /* Hidden by default */
+            display: none;
             text-align: center;
         }
 
         .custom-alert button {
-            background-color: #6f42c1;
+            background-color: #2e7d32;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -303,27 +365,101 @@
             cursor: pointer;
             margin-top: 10px;
         }
+
+        /* --- Dark Mode Toggle --- */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        .dark-mode-toggle i {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .dark-mode .dark-mode-toggle i {
+            color: #eee;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .hero-banner {
+                height: 200px;
+            }
+
+            .container {
+                padding: 16px;
+            }
+
+            .card, .result-card {
+                padding: 16px;
+            }
+        }
+
+        /* --- Particles --- */
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(46, 125, 50, 0.3);
+            pointer-events: none;
+            animation: moveParticles 10s linear infinite;
+        }
+        @keyframes moveParticles {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(100vh);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="dark-mode-toggle" onclick="toggleDarkMode()">
+        <i class="fa-solid fa-moon"></i>
+    </div>
     <div id="particles-container"></div>
+    <div class="hero-banner">
+        <h1>HaritAI - Waste Recycling</h1>
+    </div>
     <div class="container">
-        <h2 class="mb-3">Upload Waste Images</h2>
-
-        <input type="file" id="fileInput" class="form-control mb-2" accept="image/*" multiple onchange="addImages(event)">
-        <button class="btn btn-outline-secondary w-100 mb-2" onclick="openCamera()">📷 Click a Photo</button>
-
-        <div id="image-preview" class="image-list"></div>
-
-        <button class="btn btn-primary w-100 mt-3" onclick="uploadAllImages()">Upload & Analyze</button>
-        <button id="predict-btn" class="btn btn-success w-100 mt-3" onclick="predictProduct()">Predict New Product</button>
-        <button id="generate-btn" class="btn btn-warning w-100 mt-3" onclick="generateImage()">Generate Image of New Product</button>
+        <div class="input-section card">
+            <h2>Upload Waste Images</h2>
+            <input type="file" id="fileInput" class="form-control mb-2" accept="image/*" multiple onchange="addImages(event)" placeholder="Describe the item or upload an image...">
+            <button class="btn btn-camera w-100 mb-2" onclick="openCamera()"><i class="fa-solid fa-camera"></i> Click a Photo</button>
+            <div id="image-preview" class="image-list"></div>
+            <button id="upload-btn" class="btn btn-upload w-100 mt-3" onclick="uploadAllImages()"><i class="fa-solid fa-upload"></i> Upload & Analyze</button>
+        </div>
         <div id="loading-animation" class="loading-animation">
             <div class="spinner"></div>
             <p>Loading...</p>
         </div>
-        <div id="generated-image-container" class="mt-3"></div>
-        <p id="product-result" class="mt-3"></p>
+        <div id="result-section" style="display: none;">
+            <div id="product-result" class="result-card"></div>
+            <div id="generated-image-container"></div>
+            <button id="predict-btn" class="btn btn-success w-100 mt-3" onclick="predictProduct()"><i class="fa-solid fa-lightbulb"></i> Predict New Product</button>
+            <div id="loading-animation-generate" class="loading-animation">
+                <div class="spinner"></div>
+                <p>Loading...</p>
+            </div>
+            <button id="generate-btn" class="btn btn-warning w-100 mt-3" onclick="generateImage()"><i class="fa-solid fa-image"></i> Generate Image of New Product</button>
+        </div>
     </div>
     <!-- Custom Alert -->
     <div id="custom-alert" class="custom-alert">
@@ -332,18 +468,24 @@
     </div>
 
     <script>
+        // JavaScript code (same as before with some modifications)
         let selectedFiles = [];
         let processedImages = 0;
         let predictionMade = false;
         const particlesContainer = document.getElementById('particles-container');
-        const numParticles = 100; // Increased number of particles
-        const particleSize = 5; // Base particle size
-        const particleSpeed = 0.5; // Base particle speed
+        const numParticles = 100;
+        const particleSize = 5;
+        const particleSpeed = 0.5;
         const predictBtn = document.getElementById("predict-btn");
         const generateBtn = document.getElementById("generate-btn");
         const customAlert = document.getElementById('custom-alert');
         const alertMessage = document.getElementById('alert-message');
         const imagePreview = document.getElementById('image-preview');
+        const productResult = document.getElementById('product-result');
+        const resultSection = document.getElementById('result-section');
+        const loadingAnimationGenerate = document.getElementById('loading-animation-generate');
+        const uploadProcessingText = document.getElementById('upload-processing-text');
+        const uploadBtn = document.getElementById('upload-btn');
 
         function createParticle() {
             const particle = document.createElement('div');
@@ -352,7 +494,7 @@
             particle.style.height = `${particleSize}px`;
             particle.style.left = `${Math.random() * 100}vw`;
             particle.style.top = `${Math.random() * 100}vh`;
-            particle.style.opacity = Math.random() * 0.5 + 0.3; // Random opacity
+            particle.style.opacity = Math.random() * 0.5 + 0.3;
             particle.style.transition = `transform ${particleSpeed}s linear`;
             particlesContainer.appendChild(particle);
             return particle;
@@ -362,7 +504,7 @@
             const dx = x - (parseFloat(particle.style.left) || 0);
             const dy = y - (parseFloat(particle.style.top) || 0);
             const distance = Math.sqrt(dx * dx + dy * dy);
-            const speed = particleSpeed + distance * 0.001; // Adjust speed based on distance
+            const speed = particleSpeed + distance * 0.001;
             particle.style.transition = `transform ${speed}s linear`;
             particle.style.transform = `translate(${dx}px, ${dy}px)`;
         }
@@ -375,7 +517,7 @@
         }
 
         function handleTouchMove(event) {
-            event.preventDefault(); // Prevent scrolling
+            event.preventDefault();
             const touch = event.touches[0];
             const x = touch.clientX;
             const y = touch.clientY;
@@ -383,12 +525,10 @@
             particles.forEach(particle => moveParticle(particle, x, y));
         }
 
-        // Create particles
         for (let i = 0; i < numParticles; i++) {
             createParticle();
         }
 
-        // Event listeners for mouse and touch
         document.addEventListener('mousemove', handleMouseMove);
         document.addEventListener('touchmove', handleTouchMove);
 
@@ -396,16 +536,14 @@
             let files = event.target.files;
             let previewContainer = document.getElementById('image-preview');
             
-            // Enable buttons if there are images
             if (files.length > 0) {
-                //predictBtn.style.display = "block"; // Removed this line
                 
             }
-            // Reset buttons and results when new images are added
             predictBtn.style.display = "none";
             generateBtn.style.display = "none";
             predictionMade = false;
-            document.getElementById("product-result").innerText = "";
+            productResult.innerHTML = "";
+            resultSection.style.display = "none";
             document.getElementById("generated-image-container").innerHTML = "";
 
             for (let i = 0; i < files.length; i++) {
@@ -427,12 +565,12 @@
                     deleteBtn.onclick = function() {
                         selectedFiles = selectedFiles.filter(f => f !== file);
                         previewContainer.removeChild(div);
-                        // Disable buttons if no images left
                         if (selectedFiles.length === 0) {
                             predictBtn.style.display = "none";
                             generateBtn.style.display = "none";
                             predictionMade = false;
-                            document.getElementById("product-result").innerText = "";
+                            productResult.innerHTML = "";
+                            resultSection.style.display = "none";
                             document.getElementById("generated-image-container").innerHTML = "";
                         }
                     };
@@ -472,30 +610,38 @@
         function hideLoadingAnimation() {
             document.getElementById("loading-animation").style.display = "none";
         }
-        // Function to show the custom alert
+
+        function showLoadingAnimationGenerate() {
+            loadingAnimationGenerate.style.display = "block";
+        }
+
+        function hideLoadingAnimationGenerate() {
+            loadingAnimationGenerate.style.display = "none";
+        }
+
         function showCustomAlert(message) {
             alertMessage.textContent = message;
             customAlert.style.display = 'block';
         }
 
-        // Function to hide the custom alert
         function hideCustomAlert() {
             customAlert.style.display = 'none';
         }
 
         function uploadAllImages() {
             if (selectedFiles.length === 0) {
-                // alert("Please add at least one image!");
                 showCustomAlert("Please add at least one image!");
                 return;
             }
-            predictBtn.style.display = "block";
+            predictBtn.style.display = "none";
             generateBtn.style.display = "none";
             predictionMade = false;
-            document.getElementById("product-result").innerText = "";
+            productResult.innerHTML = "";
+            resultSection.style.display = "none";
             document.getElementById("generated-image-container").innerHTML = "";
             let imageItems = document.querySelectorAll('.image-item');
             processedImages = 0;
+            uploadProcessingText.style.display = "block";
 
             selectedFiles.forEach((file, index) => {
                 let formData = new FormData();
@@ -513,34 +659,46 @@
                     loadingText.style.display = "none";
                     resultText.innerText = data.description;
                     processedImages++;
-
                     if (processedImages === selectedFiles.length) {
-                        //document.getElementById("predict-btn").style.display = "block"; // Removed this line
+                        const errorImages = Array.from(document.querySelectorAll('.image-item p.text-success')).some(p => p.innerText === "Error analyzing image.");
+                        if (!errorImages) {
+                            uploadProcessingText.style.display = "none";
+                            resultSection.style.display = "block";
+                            predictBtn.style.display = "block";
+                        }
                     }
                 })
                 .catch(error => {
                     loadingText.style.display = "none";
                     resultText.innerText = "Error analyzing image.";
+                    processedImages++;
+                    if (processedImages === selectedFiles.length) {
+                        const errorImages = Array.from(document.querySelectorAll('.image-item p.text-success')).some(p => p.innerText === "Error analyzing image.");
+                        if (!errorImages) {
+                            uploadProcessingText.style.display = "none";
+                            resultSection.style.display = "block";
+                            predictBtn.style.display = "block";
+                        }
+                    }
                 });
             });
         }
 
         function predictProduct() {
-            // Show loading animation before making the request
             showLoadingAnimation();
             fetch('/predict_product', { method: "GET" })
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById("product-result").innerText = "Suggested Product: \n" + data.suggested_product;
+                    productResult.innerHTML = `
+                        <h3>Suggested Product</h3>${data.suggested_product}
+                        `;
                     document.getElementById("generate-btn").style.display = "block";
                     
                     predictionMade = true;
-                    // Hide loading animation after receiving the response
                     hideLoadingAnimation();
                 })
                 .catch(error => {
-                    document.getElementById("product-result").innerText = "Error generating product.";
-                    // Hide loading animation in case of error
+                    productResult.innerHTML = "<p class='error-message'>Error generating product.</p>";
                     hideLoadingAnimation();
                 });
         }
@@ -548,32 +706,47 @@
         function generateImage() {
             let container = document.getElementById("generated-image-container");
 
-            // Show loading animation before making the request
-            showLoadingAnimation();
+            showLoadingAnimationGenerate();
             fetch('/generate_product_image', { method: "GET" })
                 .then(response => response.json())
                 .then(data => {
                     if (data.image_url) {
                         container.innerHTML = `<img src="${data.image_url}" class="img-thumbnail">`;
-                        
-                        // Hide loading animation after receiving the response
-                        hideLoadingAnimation();
+                        hideLoadingAnimationGenerate();
                     } else {
-                        container.innerHTML = "<p class='text-danger'>Image generation failed.</p>";
-                        // Hide loading animation in case of error
-                        hideLoadingAnimation();
+                        container.innerHTML = "<p class='error-message'>Image generation failed.</p>";
+                        setTimeout(() => {
+                            if (container.innerHTML === "<p class='error-message'>Image generation failed.</p>") {
+                                container.innerHTML = `<img src="/static/error.png" alt="Error" class="error-image">`;
+                            }
+                        }, 60000);
+                        hideLoadingAnimationGenerate();
                     }
                 })
                 .catch(error => {
-                    container.innerHTML = `<p class='text-danger'>Error fetching image -> ${error}</p>`;
-                    // Hide loading animation in case of error
-                    hideLoadingAnimation();
+                    container.innerHTML = "<p class='error-message'>Image generation failed.</p>";
+                    setTimeout(() => {
+                        if (container.innerHTML === "<p class='error-message'>Image generation failed.</p>") {
+                            container.innerHTML = `<img src="/static/error.png" alt="Error" class="error-image">`;
+                        }
+                    }, 60000);
+                    hideLoadingAnimationGenerate();
                 });
         }
-        // Initially hide the buttons
+
         predictBtn.style.display = "none";
         generateBtn.style.display = "none";
-    </script>
 
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            document.querySelectorAll('.card').forEach(card => card.classList.toggle('dark-mode'));
+            document.querySelectorAll('.form-control').forEach(input => input.classList.toggle('dark-mode'));
+            document.querySelectorAll('.result-card').forEach(card => card.classList.toggle('dark-mode'));
+            const moonIcon = document.querySelector('.dark-mode-toggle i');
+            moonIcon.classList.toggle('fa-moon');
+            moonIcon.classList.toggle('fa-sun');
+            document.querySelector('.hero-banner').classList.toggle('light-mode');
+        }
+    </script>
 </body>
 </html>
