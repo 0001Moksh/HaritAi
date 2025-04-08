@@ -24,9 +24,10 @@
             --eco-blue-darker: #3a6a94;
             --eco-accent: #3CB371; /* Medium Sea Green */
             --eco-error: #DC143C; /* Crimson Red */
-            --eco-bg-start:rgb(51, 169, 99); /* Darker Green */
-            --eco-bg-end:rgba(98, 34, 144, 0.7); /* Light Blue */
-            --eco-card-bg: rgba(255, 255, 255, 0.1); /* Glassmorphism BG */
+            --eco-bg-start:rgb(2, 101, 41); /* Darker Green */
+            --eco-bg-end:rgba(58, 0, 99, 0.7); /* Light Blue */
+            /* --eco-card-bg: rgba(255, 255, 255, 0.1); */ /* Old Value */
+            --eco-card-bg: rgba(0, 0, 0, 0.52); /* MODIFIED: Slightly less transparent */
             --eco-card-hover-bg: rgba(255, 255, 255, 0.15);
             --eco-text-light: #f0f0f0;
             --eco-text-dark: #333;
@@ -83,8 +84,9 @@
 
         .container {
             background: var(--eco-card-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            /* backdrop-filter: blur(10px); */ /* Old Value */
+            backdrop-filter: blur(6px); /* MODIFIED: Reduced blur amount */
+            -webkit-backdrop-filter: blur(6px); /* MODIFIED: Reduced blur amount for Safari */
             border: 1px solid rgba(255, 255, 255, 0.18);
             padding: 30px;
             border-radius: 15px;
@@ -150,21 +152,50 @@
             display: flex; flex-direction: column; align-items: center;
         }
         .image-item:hover { transform: translateY(-5px) scale(1.03); box-shadow: 0 6px 12px var(--eco-shadow); }
-        .image-item .thumbnail-container { position: relative; width: 100%; height: 150px; }
-        .image-item img.thumbnail { height: 100%; width: 100%; border-radius: 10px 10px 0 0; object-fit: cover; transition: opacity 0.4s ease; display: block; }
+
+        /* MODIFIED: Use aspect-ratio for consistent thumbnail size */
+        .image-item .thumbnail-container {
+            position: relative;
+            width: 100%;
+            /* height: 150px; */ /* REMOVED fixed height */
+            aspect-ratio: 1 / 1; /* ADDED: Makes it square. Change if needed (e.g., 4 / 3) */
+            overflow: hidden; /* ADDED: Ensures image stays within bounds */
+            border-radius: 10px 10px 0 0; /* Moved radius here */
+        }
+        .image-item img.thumbnail {
+            height: 100%;
+            width: 100%;
+            /* border-radius: 10px 10px 0 0; */ /* REMOVED: Moved to container */
+            object-fit: cover;
+            transition: opacity 0.4s ease;
+            display: block;
+        }
+
         .image-item .delete-btn {
             position: absolute; top: 5px; right: 5px; background: rgba(220, 20, 60, 0.8); color: white;
-            border: none; border-radius: 50%; cursor: pointer; width: 24px; height: 24px; font-size: 14px; line-height: 24px;
-            text-align: center; opacity: 0; transition: opacity 0.3s ease, background-color 0.2s ease, transform 0.2s ease; z-index: 10;
+            border: none; border-radius: 50%; cursor: pointer;
+            /* Base size (can be smaller for desktop if preferred) */
+            width: 24px;
+            height: 24px;
+            font-size: 14px;
+            line-height: 24px;
+            text-align: center;
+            opacity: 0; /* <<< HIDDEN BY DEFAULT (for desktop hover) */
+            transition: opacity 0.3s ease, background-color 0.2s ease, transform 0.2s ease;
+            z-index: 10;
         }
-        .image-item:hover .delete-btn { opacity: 1; }
+        /* Show on Desktop Hover */
+        .image-item:hover .delete-btn {
+            opacity: 1;
+        }
         .delete-btn:hover { background: var(--eco-error); transform: scale(1.1); }
 
         /* --- Processing Animation (Per Image) --- */
         .image-item .processing-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.65);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            opacity: 0; transition: opacity 0.4s ease; z-index: 5; pointer-events: none; border-radius: 10px 10px 0 0;
+            opacity: 0; transition: opacity 0.4s ease; z-index: 5; pointer-events: none;
+            border-radius: 10px 10px 0 0; /* Match container radius */
         }
         .image-item.processing .processing-overlay { opacity: 1; pointer-events: auto; }
         .image-item.processing img.thumbnail { opacity: 0.3; }
@@ -176,7 +207,10 @@
 
         /* --- Analysis Result Text (Below Thumbnail) --- */
         .image-item .result-text {
-            padding: 8px; font-size: 0.8rem; color: var(--eco-green-light); font-weight: 500; min-height: 40px; background: rgba(0,0,0,0.3);
+            padding: 10px; /* Slightly more padding */
+            font-size: 0.85rem; /* Slightly larger base size */
+            color: var(--eco-green-light); font-weight: 500; min-height: 45px; /* Adjusted min-height */
+            background: rgba(0,0,0,0.3);
             border-radius: 0 0 10px 10px; width: 100%; text-align: left; opacity: 0; transform: translateY(10px);
             transition: opacity 0.5s 0.1s ease-out, transform 0.5s 0.1s ease-out; white-space: normal; word-wrap: break-word;
         }
@@ -278,7 +312,7 @@
             align-items: center;
             z-index: 9999; /* High z-index */
             opacity: 1;
-            transition: opacity 3s ease-out; /* Fade out transition */
+            transition: opacity 0.5s ease-out; /* Faster Fade out transition */
             pointer-events: auto;
         }
         #page-loader .spinner { /* Reusing the spin animation */
@@ -287,7 +321,7 @@
             border-radius: 50%;
             width: 60px;
             height: 60px;
-            animation: spin 0.5s linear infinite;
+            animation: spin 0.8s linear infinite; /* Slightly slower spin */
         }
         #page-loader.hidden {
             opacity: 0;
@@ -298,15 +332,52 @@
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             .container { padding: 20px; margin: 20px 15px; }
-            .image-item { width: calc(50% - 10px); }
+            .image-item { width: calc(50% - 10px); } /* Keep 2 columns */
             h2 { font-size: 1.6rem; }
             #upload-area { padding: 20px; }
-            .button-group { flex-direction: column; } /* Stack buttons on smaller screens */
+            .button-group { flex-direction: column; gap: 15px; } /* Stack buttons & adjust gap */
+
+            /* --- MOBILE IMPROVEMENT: Make delete button always visible & larger --- */
+            .image-item .delete-btn {
+                opacity: 1; /* <<< ALWAYS VISIBLE on mobile */
+                width: 30px; /* Larger tap target */
+                height: 30px;
+                font-size: 16px;
+                line-height: 30px; /* Center icon */
+                /* Optional: Adjust position slightly if needed */
+                /* top: 3px; */
+                /* right: 3px; */
+            }
+            /* No need for .image-item:hover .delete-btn here */
         }
+
         @media (max-width: 480px) {
-            .image-item { width: calc(100% - 10px); }
-            .btn { font-size: 0.9rem; padding: 8px 15px; }
+            .image-list {
+                gap: 15px; /* Reduced gap for smallest screens */
+            }
+            .image-item { width: 100%; } /* Single column */
+            .btn { font-size: 0.95rem; padding: 10px 18px; } /* Slightly larger font/padding */
             h2 { font-size: 1.4rem; }
+            .image-item .result-text { font-size: 0.9rem; min-height: 40px; } /* Further increase result text size */
+            .image-item .processing-text { font-size: 0.9rem; } /* Increased processing text size */
+            #results-area { padding: 15px; } /* Reduce padding slightly */
+            #generated-image-container img { max-width: 100%; } /* Allow image to use full width */
+
+            /* Delete button styles from 768px will cascade, ensure they are correct */
+            .image-item .delete-btn {
+                 opacity: 1; /* Ensure it's visible */
+                 width: 30px; /* Keep the larger tap target */
+                 height: 30px;
+                 line-height: 30px;
+                 font-size: 16px;
+            }
+        }
+
+        /* ADDED: Optional - Hide particles on smaller screens for performance */
+        @media (max-width: 600px) {
+            #particles-container {
+                display: none;
+            }
         }
 
     </style>
@@ -393,25 +464,31 @@
         const pageLoader = document.getElementById('page-loader'); // **ADDED**: Reference to page loader
 
         // --- Particle Logic ---
-        const numParticles = 50;
-        function createParticle() { /* ... (particle creation logic remains the same) ... */
+        const numParticles = 20; // Adjusted number of particles
+        function createParticle() {
             const particle = document.createElement('div');
             particle.classList.add('particle');
             particle.style.left = `${Math.random() * 100}vw`;
             particle.style.top = `${Math.random() * 100}vh`;
-            const duration = Math.random() * 10 + 10;
-            const delay = Math.random() * 5;
+            // Adjust animation duration and delay for variety
+            const duration = Math.random() * 10 + 10; // 10s to 20s
+            const delay = Math.random() * 15; // 0s to 15s delay
             particle.style.animationDuration = `${duration}s`;
-            particle.style.animationDelay = `-${delay}s`;
-            particle.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+            particle.style.animationDelay = `-${delay}s`; // Negative delay starts animation partway through
+            particle.style.transform = `scale(${Math.random() * 0.5 + 0.5}) rotate(-45deg)`; // Initial state matches keyframes
+            particle.style.opacity = Math.random() * 0.3 + 0.3; // Vary initial opacity slightly
             particlesContainer.appendChild(particle);
         }
-        for (let i = 0; i < numParticles; i++) { createParticle(); }
+        // Check if particles should be displayed before creating them
+        if (window.innerWidth > 600) { // Match the CSS media query
+             for (let i = 0; i < numParticles; i++) { createParticle(); }
+        }
+
 
         // --- Drag and Drop ---
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => { /* ... (drag/drop listeners remain the same) ... */
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             uploadArea.addEventListener(eventName, preventDefaults, false);
-            document.body.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false); // Prevent browser default for whole page
         });
         ['dragenter', 'dragover'].forEach(eventName => {
             uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
@@ -423,12 +500,12 @@
 
         function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
 
-        function handleDrop(e) { /* ... (handleDrop remains the same) ... */
+        function handleDrop(e) {
             const dt = e.dataTransfer;
             const files = dt.files;
             if (files.length) {
-                fileInput.files = files;
-                addImages({ target: fileInput });
+                fileInput.files = files; // Assign dropped files to the hidden input
+                addImages({ target: fileInput }); // Trigger the same handler as file selection
             }
         }
 
@@ -438,12 +515,22 @@
             if (!files || files.length === 0) return;
 
             let newFilesAdded = false;
-            for (let i = 0; i < files.length; i++) { /* ... (file validation and pushing remains the same) ... */
+            for (let i = 0; i < files.length; i++) {
                 let file = files[i];
-                if (!file.type.startsWith('image/') || selectedFiles.some(f => f.name === file.name && f.lastModified === file.lastModified)) {
-                     console.log(`Skipping duplicate or non-image file: ${file.name}`);
+                // Basic validation: Check if it's an image and not already added
+                if (!file.type.startsWith('image/')) {
+                     console.warn(`Skipping non-image file: ${file.name}`);
+                     showCustomAlert(`Skipped: ${file.name} is not an image.`);
                      continue;
                 }
+                const fileId = `${file.name}-${file.lastModified}`;
+                if (selectedFiles.some(f => `${f.name}-${f.lastModified}` === fileId)) {
+                     console.log(`Skipping duplicate file: ${file.name}`);
+                     // Optional: show alert for duplicate
+                     // showCustomAlert(`Skipped: ${file.name} is already added.`);
+                     continue;
+                }
+
                 selectedFiles.push(file);
                 newFilesAdded = true;
                 let reader = new FileReader();
@@ -452,10 +539,14 @@
             }
 
              if (newFilesAdded) {
-                 checkAnalyzeButtonState(); // Update analyze button visibility AND STATE
-                 if (predictionMade || generatedImageContainer.innerHTML !== '') { resetPredictionGenerationState(); }
-                 checkPredictButtonState();
+                 checkAnalyzeButtonState(); // Update analyze button state
+                 // If prediction/generation was already done, reset that part
+                 if (predictionMade || generatedImageContainer.innerHTML !== '') {
+                     resetPredictionGenerationState();
+                 }
+                 checkPredictButtonState(); // Hide predict button if new files added
              }
+             // Reset file input to allow selecting the same file again after removal
              event.target.value = null;
         }
 
@@ -463,49 +554,81 @@
             let div = document.createElement("div");
             div.classList.add("image-item");
             const fileId = `${file.name}-${file.lastModified}`;
-            div.dataset.fileId = fileId;
+            div.dataset.fileId = fileId; // Use dataset for easier selection
 
             let thumbnailContainer = document.createElement("div");
-            thumbnailContainer.classList.add("thumbnail-container");
+            thumbnailContainer.classList.add("thumbnail-container"); // Container for aspect ratio
+
             let img = document.createElement("img");
             img.src = imageSrc; img.alt = `Preview of ${file.name}`; img.classList.add("thumbnail");
+
             let deleteBtn = document.createElement("button");
-            deleteBtn.innerHTML = "&times;"; deleteBtn.classList.add("delete-btn");
+            deleteBtn.innerHTML = "&times;"; // Use HTML entity for 'x'
+            deleteBtn.classList.add("delete-btn");
             deleteBtn.setAttribute('aria-label', `Remove ${file.name}`);
-            deleteBtn.onclick = function(event) { /* ... (delete logic remains the same, including calls to checkAnalyzeButtonState and checkPredictButtonState) ... */
-                event.stopPropagation();
+            deleteBtn.onclick = function(event) {
+                event.stopPropagation(); // Prevent triggering other clicks if needed
                 const fileIdToRemove = div.dataset.fileId;
                 const indexToRemove = selectedFiles.findIndex(f => `${f.name}-${f.lastModified}` === fileIdToRemove);
+
                 if (indexToRemove > -1) {
                     const removedFile = selectedFiles.splice(indexToRemove, 1)[0];
-                    delete analysisResults[fileIdToRemove];
+                    delete analysisResults[fileIdToRemove]; // Remove analysis result too
                     console.log(`Removed file: ${removedFile.name}`);
-                } else { console.warn(`Could not find file with ID ${fileIdToRemove} for removal.`); }
-                imagePreview.removeChild(div);
-                checkAnalyzeButtonState(); // Update analyze button visibility AND STATE
-                checkPredictButtonState();
-                if (selectedFiles.length === 0) { resetUIState(); }
-                else { resetPredictionGenerationState(); }
+                } else {
+                    console.warn(`Could not find file with ID ${fileIdToRemove} for removal.`);
+                }
+                imagePreview.removeChild(div); // Remove the item from the DOM
+
+                checkAnalyzeButtonState(); // Update analyze button state
+                checkPredictButtonState(); // Update predict button state
+
+                // If no files left, reset everything
+                if (selectedFiles.length === 0) {
+                    resetUIState();
+                } else {
+                    // Otherwise, just reset prediction/generation if it was shown
+                    resetPredictionGenerationState();
+                }
             };
 
+            // Processing Overlay Elements
             let processingOverlay = document.createElement("div");
             processingOverlay.classList.add("processing-overlay");
             let spinner = document.createElement("div"); spinner.classList.add("processing-spinner");
             let processingText = document.createElement("p"); processingText.classList.add("processing-text"); processingText.innerText = "Analyzing...";
             processingOverlay.appendChild(spinner); processingOverlay.appendChild(processingText);
 
-            thumbnailContainer.appendChild(img); thumbnailContainer.appendChild(deleteBtn); thumbnailContainer.appendChild(processingOverlay);
+            // Append elements to thumbnail container
+            thumbnailContainer.appendChild(img);
+            thumbnailContainer.appendChild(deleteBtn);
+            thumbnailContainer.appendChild(processingOverlay);
 
-            let resultText = document.createElement("p"); resultText.classList.add("result-text");
+            // Result Text Element (below thumbnail)
+            let resultText = document.createElement("p");
+            resultText.classList.add("result-text");
 
-            div.appendChild(thumbnailContainer); div.appendChild(resultText);
+            // Append main parts to the image item div
+            div.appendChild(thumbnailContainer);
+            div.appendChild(resultText);
+
+            // Add the new item to the preview area
             imagePreview.appendChild(div);
         }
 
-        function openCamera() { /* ... (openCamera remains the same) ... */
+        function openCamera() {
+            // Create a temporary file input element
             let input = document.createElement("input");
-            input.type = "file"; input.accept = "image/*"; input.capture = "environment";
-            input.onchange = function(event) { addImages(event); };
+            input.type = "file";
+            input.accept = "image/*"; // Accept only images
+            input.capture = "environment"; // Prefer back camera
+
+            // Add event listener for when a file is selected
+            input.onchange = function(event) {
+                addImages(event); // Use the same function to handle the captured image
+            };
+
+            // Programmatically click the input to open the camera/file picker
             input.click();
         }
 
@@ -513,7 +636,8 @@
 
         function checkAnalyzeButtonState() {
              const hasFiles = selectedFiles.length > 0;
-             uploadAnalyzeBtn.disabled = !hasFiles;
+             uploadAnalyzeBtn.disabled = !hasFiles; // Enable only if files exist
+             // Update tooltip based on state
              if (uploadAnalyzeBtn.disabled) {
                  uploadAnalyzeBtn.setAttribute('title', 'Add the image of your waste product');
              } else {
@@ -522,27 +646,47 @@
         }
 
         function checkPredictButtonState() {
-             const allAnalyzed = selectedFiles.length > 0 && selectedFiles.every(file => analysisResults[`${file.name}-${file.lastModified}`]);
+             // Enable predict button only if there are files AND all of them have analysis results
+             const allAnalyzed = selectedFiles.length > 0 && selectedFiles.every(file => {
+                 const fileId = `${file.name}-${file.lastModified}`;
+                 return analysisResults[fileId]; // Check if result exists for this fileId
+             });
              predictBtn.style.display = allAnalyzed ? "block" : "none";
         }
 
         function resetUIState() {
-            selectedFiles = []; analysisResults = {}; analysisCompleteCount = 0; predictionMade = false;
-            imagePreview.innerHTML = '';
+            // Clear data arrays
+            selectedFiles = [];
+            analysisResults = {};
+            analysisCompleteCount = 0;
+            predictionMade = false;
+
+            // Clear UI elements
+            imagePreview.innerHTML = ''; // Remove all image previews
+            productResult.innerHTML = ""; // Clear prediction text
+            generatedImageContainer.innerHTML = ""; // Clear generated image
+
+            // Reset button states
             uploadAnalyzeBtn.disabled = true;
-            uploadAnalyzeBtn.setAttribute('title', 'Add the image of your waste product');
-            predictBtn.style.display = "none"; generateBtn.style.display = "none";
-            productResult.innerHTML = ""; generatedImageContainer.innerHTML = "";
+            uploadAnalyzeBtn.setAttribute('title', 'Add the image of your waste product'); // Reset tooltip
+            predictBtn.style.display = "none";
+            generateBtn.style.display = "none";
+
+            // Hide results area
             resultsArea.classList.remove('visible');
+            console.log("UI Reset");
         }
 
         function resetPredictionGenerationState() {
-             predictionMade = false; generateBtn.style.display = "none";
-             productResult.innerHTML = ""; generatedImageContainer.innerHTML = "";
-             resultsArea.classList.remove('visible');
+             predictionMade = false;
+             generateBtn.style.display = "none"; // Hide generate button
+             productResult.innerHTML = ""; // Clear prediction text
+             generatedImageContainer.innerHTML = ""; // Clear generated image
+             resultsArea.classList.remove('visible'); // Hide the results area
+             console.log("Prediction/Generation State Reset");
         }
 
-        // Use standard browser alert
+        // Use standard browser alert for simplicity
         function showCustomAlert(message) {
             alert(message);
         }
@@ -556,140 +700,210 @@
             }
 
             // --- Start Analysis Process ---
-            uploadAnalyzeBtn.disabled = true;
-            uploadAnalyzeBtn.removeAttribute('title');
-            predictBtn.style.display = "none";
+            uploadAnalyzeBtn.disabled = true; // Disable button during upload/analysis
+            uploadAnalyzeBtn.removeAttribute('title'); // Remove tooltip while active
+            predictBtn.style.display = "none"; // Hide predict button during analysis
 
-            resetPredictionGenerationState();
-            analysisCompleteCount = 0;
+            resetPredictionGenerationState(); // Clear previous prediction/generation results
+            analysisCompleteCount = 0; // Reset counter for parallel requests
 
-            selectedFiles.forEach(file => { /* ... (clearing logic remains the same) ... */
+            // Clear previous results and reset UI for each item before new analysis
+            selectedFiles.forEach(file => {
                 const fileId = `${file.name}-${file.lastModified}`;
-                delete analysisResults[fileId];
-                let imageItem = imagePreview.querySelector(`.image-item[data-file-id="${fileId}"]`);
+                delete analysisResults[fileId]; // Clear any old result for this file
+                let imageItem = imagePreview.querySelector(`.image-item[data-file-id="${CSS.escape(fileId)}"]`); // Use CSS.escape for potentially complex IDs
                 if (imageItem) {
                     let resultTextElement = imageItem.querySelector(".result-text");
-                    resultTextElement.classList.remove("visible", "error"); resultTextElement.innerText = "";
+                    resultTextElement.classList.remove("visible", "error");
+                    resultTextElement.innerText = ""; // Clear text
+                    imageItem.classList.remove("processing"); // Ensure spinner is hidden initially
                 }
             });
 
-            let analysisPromises = [];
+            let analysisPromises = []; // To track completion of all requests
 
             selectedFiles.forEach(file => {
                 const fileId = `${file.name}-${file.lastModified}`;
-                let imageItem = imagePreview.querySelector(`.image-item[data-file-id="${fileId}"]`);
+                let imageItem = imagePreview.querySelector(`.image-item[data-file-id="${CSS.escape(fileId)}"]`);
 
-                if (imageItem && !analysisResults[fileId]) {
+                // Only process if the UI element exists and no result exists yet (or re-analyzing)
+                if (imageItem) { // Removed !analysisResults[fileId] check to allow re-analysis
                     let resultTextElement = imageItem.querySelector(".result-text");
                     imageItem.classList.add("processing"); // Show PER-IMAGE spinner
 
-                    let formData = new FormData(); formData.append("file", file);
+                    let formData = new FormData();
+                    formData.append("file", file);
 
+                    // Create a promise for each fetch request
                     const analysisPromise = fetch('/upload_image', { method: "POST", body: formData })
-                        .then(response => response.json())
-                        .then(data => { /* ... (success handling remains the same) ... */
-                            if (data.error) { throw new Error(data.error); }
+                        .then(response => {
+                            if (!response.ok) { // Check for HTTP errors (like 500, 404)
+                                 return response.json().then(errData => { // Try to parse error JSON
+                                     throw new Error(errData.error || `HTTP error! Status: ${response.status}`);
+                                 }).catch(() => { // If no JSON body, throw generic error
+                                     throw new Error(`HTTP error! Status: ${response.status}`);
+                                 });
+                            }
+                            return response.json(); // Parse successful JSON response
+                        })
+                        .then(data => {
+                            if (data.error) { // Check for application-level errors in JSON
+                                throw new Error(data.error);
+                            }
+                            // Success: Update UI and store result
                             resultTextElement.innerText = data.description || "Analysis complete.";
                             resultTextElement.classList.add("visible");
+                            resultTextElement.classList.remove("error"); // Ensure error class is removed
                             analysisResults[fileId] = { status: 'success', description: data.description };
                         })
-                        .catch(error => { /* ... (error handling remains the same) ... */
+                        .catch(error => {
+                            // Failure: Update UI with error and store error status
                             console.error("Error analyzing image:", file.name, error);
-                            resultTextElement.innerText = `Error: ${error.message.substring(0, 50)}...`;
+                            resultTextElement.innerText = `Error: ${error.message.substring(0, 100)}...`; // Show truncated error
                             resultTextElement.classList.add("visible", "error");
                             analysisResults[fileId] = { status: 'error', description: error.message };
                         })
                         .finally(() => {
-                            imageItem.classList.remove("processing"); // Hide PER-IMAGE spinner
+                            // Always run: Hide spinner and increment counter
+                            imageItem.classList.remove("processing");
                             analysisCompleteCount++;
+                            // Check if all analyses are complete
                             if (analysisCompleteCount === selectedFiles.length) {
-                                uploadAnalyzeBtn.disabled = false;
-                                checkPredictButtonState();
+                                uploadAnalyzeBtn.disabled = false; // Re-enable button
+                                checkPredictButtonState(); // Show predict button if all succeeded (or some failed)
                                 checkAnalyzeButtonState(); // Re-check title state
+                                console.log("All analyses finished.");
                             }
                         });
                     analysisPromises.push(analysisPromise);
-                } else if (!imageItem) { /* ... (missing item handling remains the same) ... */
+                } else {
+                     // Handle case where UI element is missing (shouldn't normally happen)
                      console.error(`Could not find image item for ${file.name}`);
-                     analysisCompleteCount++; analysisResults[fileId] = { status: 'error', description: 'UI element missing.' };
-                } else { analysisCompleteCount++; }
+                     analysisCompleteCount++; // Still count it to avoid blocking completion check
+                     analysisResults[fileId] = { status: 'error', description: 'UI element missing.' };
+                }
             });
 
-             if (analysisCompleteCount === selectedFiles.length && selectedFiles.length > 0) {
+             // Handle case where there were no files to process (e.g., all duplicates)
+             if (selectedFiles.length === 0) {
+                 uploadAnalyzeBtn.disabled = true;
+                 checkAnalyzeButtonState();
+             } else if (analysisCompleteCount === selectedFiles.length) {
+                 // If all items were already processed (e.g., UI missing), re-enable button immediately
                  uploadAnalyzeBtn.disabled = false;
                  checkPredictButtonState();
-                 checkAnalyzeButtonState();
-             } else if (selectedFiles.length === 0) {
-                 uploadAnalyzeBtn.disabled = true;
                  checkAnalyzeButtonState();
              }
         }
 
         function predictProduct() {
             // --- Pre-checks ---
-             if (!selectedFiles.every(file => analysisResults[`${file.name}-${file.lastModified}`])) { showCustomAlert("Please ensure all images are analyzed first."); return; }
-             const hasSuccessfulAnalysis = Object.values(analysisResults).some(res => res.status === 'success');
-             if (!hasSuccessfulAnalysis && selectedFiles.length > 0) { showCustomAlert("No successfully analyzed waste to predict a product from."); return; }
-             if (selectedFiles.length === 0) { showCustomAlert("No images available for prediction."); return; }
+             const successfulAnalyses = Object.values(analysisResults).filter(res => res.status === 'success');
+             if (successfulAnalyses.length === 0) {
+                 showCustomAlert("No successfully analyzed waste to predict a product from. Please analyze images first.");
+                 return;
+             }
+             if (selectedFiles.length === 0) {
+                 showCustomAlert("No images available for prediction.");
+                 return;
+             }
+             // Optional: Check if all are analyzed, even if some failed? Depends on backend logic.
+             // if (!selectedFiles.every(file => analysisResults[`${file.name}-${file.lastModified}`])) {
+             //     showCustomAlert("Please ensure all images are analyzed first (even if some failed)."); return;
+             // }
 
             // --- Start Prediction Process ---
-            predictBtn.disabled = true; generateBtn.style.display = "none";
-            generatedImageContainer.innerHTML = "";
+            predictBtn.disabled = true; // Disable during request
+            generateBtn.style.display = "none"; // Hide generate button
+            generatedImageContainer.innerHTML = ""; // Clear previous image
 
+            // Show loading indicator in results area
             productResult.innerHTML = `<p class="loading-text">Predicting product...</p>`;
-            resultsArea.classList.add('visible');
+            resultsArea.classList.add('visible'); // Make sure results area is visible
 
             fetch('/predict_product', { method: "GET" })
-                .then(response => response.json())
+                .then(response => {
+                     if (!response.ok) {
+                         return response.json().then(errData => { throw new Error(errData.error || `HTTP error! Status: ${response.status}`); })
+                                          .catch(() => { throw new Error(`HTTP error! Status: ${response.status}`); });
+                     }
+                     return response.json();
+                 })
                 .then(data => {
-                    if (data.error || data.message) { throw new Error(data.error || data.message || "Prediction failed."); }
-                    productResult.innerHTML = data.suggested_product || "No suggestion available.";
-                    predictionMade = true;
-                    generateBtn.style.display = "block";
+                    if (data.error) { throw new Error(data.error); }
+                    // Format the prediction text - assuming backend sends structured data
+                    let predictionHtml = "No suggestion available.";
+                    if (data.suggested_product) {
+                        // Example: Assuming data.suggested_product is like "Based on [Waste Types], you can make:\n\n**Product:** [Product Name]\n**Description:** [Product Description]"
+                        // We can format this better with HTML
+                        predictionHtml = data.suggested_product
+                            .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>') // Bold text like **Product:**
+                            .replace(/\n/g, '<br>'); // Convert newlines to <br>
+                    }
+                    productResult.innerHTML = predictionHtml;
+                    predictionMade = true; // Set flag
+                    generateBtn.style.display = "block"; // Show generate button
                 })
                 .catch(error => {
                     console.error("Error predicting product:", error);
-                    productResult.innerHTML = `<span class="error">Prediction Error: ${error.message}</span>`;
-                    predictionMade = false;
-                    generateBtn.style.display = "none";
+                    productResult.innerHTML = `<p class="error">🚫 Prediction Error: ${error.message}</p>`;
+                    predictionMade = false; // Reset flag
+                    generateBtn.style.display = "none"; // Hide generate button
                 })
                 .finally(() => {
-                    predictBtn.disabled = false;
+                    predictBtn.disabled = false; // Re-enable predict button
                 });
         }
 
         function generateImage() {
-            if (!predictionMade) { showCustomAlert("Please get a successful product prediction first."); return; }
+            if (!predictionMade) {
+                showCustomAlert("Please get a successful product prediction first.");
+                return;
+            }
 
             // --- Start Image Generation Process ---
-            generateBtn.disabled = true;
+            generateBtn.disabled = true; // Disable during request
 
+            // Show loading indicator in image container
             generatedImageContainer.innerHTML = `<p class="loading-text">Generating image...</p>`;
-            resultsArea.classList.add('visible');
+            resultsArea.classList.add('visible'); // Ensure results area is visible
 
-            const errorImageUrl = 'static/error.jpg'; // **CHECK THIS PATH**
+            const errorImageUrl = 'static/error.jpg'; // Define fallback image path
 
             fetch('/generate_product_image', { method: "GET" })
-                .then(response => response.json())
+                 .then(response => {
+                     if (!response.ok) {
+                         return response.json().then(errData => { throw new Error(errData.error || `HTTP error! Status: ${response.status}`); })
+                                          .catch(() => { throw new Error(`HTTP error! Status: ${response.status}`); });
+                     }
+                     return response.json();
+                 })
                 .then(data => {
                     if (data.error) { throw new Error(data.error); }
                     if (data.image_url) {
-                        generatedImageContainer.innerHTML = `<img src="${data.image_url}" alt="Generated eco-friendly product" onerror="this.onerror=null; this.src='${errorImageUrl}'; this.classList.add('error-image'); this.alt='Failed to load generated image.'">`;
-                    } else { throw new Error("Image URL not found in response."); }
+                        // Create image element with error handling
+                        generatedImageContainer.innerHTML = `
+                            <img src="${data.image_url}"
+                                 alt="Generated eco-friendly product"
+                                 onerror="this.onerror=null; this.src='${errorImageUrl}'; this.classList.add('error-image'); this.alt='Failed to load generated image.'">`;
+                    } else {
+                        throw new Error("Image URL not found in response.");
+                    }
                 })
                 .catch(error => {
                     console.error("Error generating image:", error);
+                    // Display error image and message
                     generatedImageContainer.innerHTML = `
                         <img src="${errorImageUrl}" class="error-image" alt="Image generation failed">
-                        <p class="error-message">🚫 <strong>Error:</strong> <span> in image generation</span></p>`;
+                        <p class="error-message">🚫 <strong>Error:</strong> <span>${error.message || 'Image generation failed.'}</span></p>`;
                 })
                 .finally(() => {
-                    generateBtn.disabled = false;
+                    generateBtn.disabled = false; // Re-enable generate button
                 });
         }
 
         // --- Initial Page Setup ---
-        checkAnalyzeButtonState(); // Ensure initial state is correct (visible but disabled, with title)
+        checkAnalyzeButtonState(); // Set initial state of the analyze button (disabled, with title)
 
         // **ADDED**: Page load listener to hide loader
         window.onload = () => {
@@ -697,10 +911,10 @@
                  pageLoader.classList.add('hidden');
                  // Optional: Remove from DOM after transition for performance
                  setTimeout(() => {
-                     if (pageLoader.parentNode) { // Check if still attached
+                     if (pageLoader && pageLoader.parentNode) { // Check again if still exists and attached
                          pageLoader.parentNode.removeChild(pageLoader);
                      }
-                 }, 500); // Match CSS transition duration
+                 }, 500); // Match CSS transition duration (adjust if needed)
             }
         };
 
