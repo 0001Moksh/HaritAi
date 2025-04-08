@@ -705,7 +705,12 @@
         function generateImage() {
             let container = document.getElementById("generated-image-container");
 
-            showLoadingAnimationGenerate();
+            // Show loading animation
+            container.innerHTML = `<div class="spinner-border text-primary" role="status">
+                                       <span class="visually-hidden">Generating...</span>
+                                   </div>`;
+            // Show loading animation before making the request
+            showLoadingAnimation();
             fetch('/generate_product_image', { method: "GET" })
                 .then(response => response.json())
                 .then(data => {
@@ -723,13 +728,9 @@
                     }
                 })
                 .catch(error => {
-                    container.innerHTML = "<p class='error-message'>Image generation failed.</p>";
-                    setTimeout(() => {
-                        if (container.innerHTML === "<p class='error-message'>Image generation failed.</p>") {
-                            container.innerHTML = `<img src="/static/error.png" alt="Error" class="error-image">`;
-                        }
-                    }, 60000);
-                    hideLoadingAnimationGenerate();
+                    container.innerHTML = `<p class='text-danger'>Error fetching image: ${error}</p>`;
+                    // Hide loading animation in case of error
+                    hideLoadingAnimation();
                 });
         }
 
